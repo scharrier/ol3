@@ -18,7 +18,7 @@ goog.require('ol.style.Text');
  * @implements {ol.render.IRender}
  * @param {CanvasRenderingContext2D} context Context.
  * @param {ol.Extent} extent Extent.
- * @param {goog.vec.Mat4.AnyType} transform Transform.
+ * @param {goog.vec.Mat4.Number} transform Transform.
  * @struct
  */
 ol.render.canvas.Immediate = function(context, extent, transform) {
@@ -37,7 +37,7 @@ ol.render.canvas.Immediate = function(context, extent, transform) {
 
   /**
    * @private
-   * @type {goog.vec.Mat4.AnyType}
+   * @type {goog.vec.Mat4.Number}
    */
   this.transform_ = transform;
 
