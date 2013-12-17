@@ -384,6 +384,29 @@ describe('ol.parser.KML', function() {
       expect(f.getGeometry()).to.be(null);
     });
 
+    it('should handle namespaces', function() {
+      var kml =
+          '<kml xmlns="http://www.opengis.net/kml/2.2"' +
+          '     xmlns:NOTKML="http://www.example.com/NOTKML">' +
+          '  <Placemark>' +
+          '    <name>A KML Placemark</name>' +
+          '    <Point>' +
+          '      <coordinates>1,2,3</coordinates>' +
+          '    </Point>' +
+          '  </Placemark>' +
+          '  <NOTKML:Placemark>' +
+          '    I am not a KML placemark, I\'m in a different namespace!' +
+          '    <Point>' +
+          '      <coordinates>1,2,3</coordinates>' +
+          '    </Point>' +
+          '  </NOTKML:Placemark>' +
+          '</kml>';
+      var p = new ol.parser.KML();
+      var fs = p.read(kml).features;
+      expect(fs).to.be.an(Array);
+      expect(fs).to.have.length(1);
+    });
+
   });
 
 });
