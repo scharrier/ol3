@@ -428,6 +428,32 @@ describe('ol.parser.KML', function() {
       expect(f.get('name')).to.be('A KML Placemark');
     });
 
+    it('should ignore mis-placed elements', function() {
+      var kml =
+          '<kml xmlns="http://www.opengis.net/kml/2.2">' +
+          '  <Placemark>' +
+          '    <name>A KML Placemark</name>' +
+          '    <Point>' +
+          '      <coordinates>1,2,3</coordinates>' +
+          '      <name>A mis-placed element</name>' +
+          '    </Point>' +
+          '    <Placemark>' +
+          '      <name>A mis-placed Placemark</name>' +
+          '      <Point>' +
+          '        <coordinates>1,2,3</coordinates>' +
+          '      </Point>' +
+          '    </Placemark>' +
+          '  </Placemark>' +
+          '</kml>';
+      var p = new ol.parser.KML();
+      var fs = p.read(kml).features;
+      expect(fs).to.be.an(Array);
+      expect(fs).to.have.length(1);
+      var f = fs[0];
+      expect(f).to.be.an(ol.Feature);
+      expect(f.get('name')).to.be('A KML Placemark');
+    });
+
   });
 
 });
