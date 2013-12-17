@@ -407,6 +407,27 @@ describe('ol.parser.KML', function() {
       expect(fs).to.have.length(1);
     });
 
+    it('should handle namespaces inside Placemarks', function() {
+      var kml =
+          '<kml xmlns="http://www.opengis.net/kml/2.2"' +
+          '     xmlns:NOTKML="http://www.example.com/NOTKML">' +
+          '  <Placemark>' +
+          '    <name>A KML Placemark</name>' +
+          '    <NOTKML:name>Some other name element</NOTKML:name>' +
+          '    <Point>' +
+          '      <coordinates>1,2,3</coordinates>' +
+          '    </Point>' +
+          '  </Placemark>' +
+          '</kml>';
+      var p = new ol.parser.KML();
+      var fs = p.read(kml).features;
+      expect(fs).to.be.an(Array);
+      expect(fs).to.have.length(1);
+      var f = fs[0];
+      expect(f).to.be.an(ol.Feature);
+      expect(f.get('name')).to.be('A KML Placemark');
+    });
+
   });
 
 });
