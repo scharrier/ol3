@@ -368,6 +368,24 @@ describe('ol.parser.KML', function() {
 
   });
 
+  describe('failure modes', function() {
+
+    it('should be able to parse Placemarks without geometries', function() {
+      var kml =
+          '<kml xmlns="http://www.opengis.net/kml/2.2">' +
+          '  <Placemark/>' +
+          '</kml>';
+      var p = new ol.parser.KML();
+      var fs = p.read(kml).features;
+      expect(fs).to.be.an(Array);
+      expect(fs).to.have.length(1);
+      var f = fs[0];
+      expect(f).to.be.an(ol.Feature);
+      expect(f.getGeometry()).to.be(null);
+    });
+
+  });
+
 });
 
 goog.require('goog.array');
