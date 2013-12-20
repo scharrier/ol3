@@ -114,11 +114,17 @@ ol.style.Circle.prototype.load = goog.nullFunction;
  */
 ol.style.Circle.prototype.render_ = function() {
   var canvas = this.canvas_;
-  var size = 2 * this.radius_ + 1;
 
-  if (!goog.isNull(this.stroke_) && goog.isDef(this.stroke_.width)) {
-    size += this.stroke_.width;
+  var strokeWidth;
+  if (goog.isNull(this.stroke_)) {
+    strokeWidth = 0;
+  } else if (!goog.isDef(this.stroke_.width)) {
+    strokeWidth = 1;
+  } else {
+    strokeWidth = this.stroke_.width;
   }
+
+  var size = 2 * (this.radius_ + strokeWidth) + 1;
 
   canvas.height = size;
   canvas.width = size;
